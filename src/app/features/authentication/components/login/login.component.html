@@ -1,0 +1,14 @@
+<form [formGroup]="form" style="border:1px solid black; margin-top:50px">
+  <div>
+    <label>Email: </label>
+    <input type="text" formControlName="email">
+  </div>
+
+  <div>
+    <label>Password: </label>
+    <input type="password" formControlName="password">
+  </div>
+
+  <button (click)="onLogin()">Log In</button>
+</form>
+

@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "email": "abc@gmail.com",
+      "nickname": "Ehsan",
+      "password": "123qweasd",
+      "id": "RCHIX476"
+    },
+    {
+      "email": "gena@gmail.com",
+      "nickname": "Gena",
+      "password": "123123123",
+      "id": "MWMKF112"
+    },
+    {
+      "email": "vano@yahoo.com",
+      "nickname": "Vano21",
+      "password": "123123123",
+      "id": "NAWOJ422"
+    }
+  ]
+}

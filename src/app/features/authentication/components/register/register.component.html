@@ -1,0 +1,33 @@
+<form [formGroup]="form" style="border:1px solid black; margin-top:50px">
+
+  <div>
+    <label>Email</label>
+    <input type="text" formControlName="email">
+    <div *ngIf="email.invalid && (email.touched || email.dirty)">invalid</div>
+  </div>
+
+  <div>
+    <label>Nickname</label>
+    <input type="text" formControlName="nickname">
+    <div *ngIf="nickname.invalid && (nickname.touched || nickname.dirty)">invalid</div>
+  </div>
+
+  <ng-container formGroupName="password">
+    <div>
+      <label>Password</label>
+      <input type="password" formControlName="pass1">
+      <div *ngIf="pass1.invalid && (pass1.touched || pass1.dirty)">invalid</div>
+    </div>
+
+    <div>
+      <label>Confirm Password</label>
+      <input type="password" formControlName="pass2">
+      <div *ngIf="pass2.invalid && (pass2.touched || pass2.dirty)">
+        <div *ngIf="pass2.hasError('passwordMismatch')">not matching password</div>
+      </div>
+    </div>
+  </ng-container>
+
+  <button (click)="onRegister()" [disabled]="form.invalid">Register</button>
+
+</form>
