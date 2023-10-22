@@ -17,6 +17,14 @@ export const appRoutes: Routes = [
   {
     path: 'users/profile',
     loadComponent: () => import('../../features/users/components/user-profile/user-profile.component').then(mod => mod.UserProfileComponent)
+  },
+  {
+    path: 'books',
+    loadComponent: () => import('../../features/books/components/book-search/book-search.component').then(mod => mod.BookSearchComponent)
+  },
+  {
+    path: 'books/details/:isbn',
+    loadComponent: () => import('../../features/books/components/book-details/book-details.component').then(mod => mod.BookDetailsComponent)
   }
 ];
 

@@ -1,0 +1,52 @@
+<h1>Search for Books:</h1>
+
+<div>
+  <h2>Test Things Here:</h2>
+  <button (click)="onFetchWork()">Fetch Work:</button>
+  <div *ngIf="work$ | async as work">
+    <p>{{work.key}}</p>
+    <p>{{work.title}}</p>
+    <p *ngIf="work.description">
+      {{work.description}}
+    </p>
+
+    <div *ngFor="let a of work.authors">
+      <p>{{a.author.key}}</p>
+    </div>
+    <div *ngFor="let s of work.subjects">
+      <p>{{s}}</p>
+    </div>
+    <img [src]="'https://covers.openlibrary.org/b/id/' + work.covers[0] + '-M.jpg'">
+  </div>
+
+  <button (click)="onGetEditons()">Editions</button>
+  <div *ngIf="editions$ | async as editions">
+    <div *ngFor="let ed of editions.entries" style="border:3px solid black; margin:10px;">
+      <p>{{ed.key}}</p>
+      <p>Title: {{ed.title}}</p>
+      <p *ngIf="ed.pagination">Pagination: {{ed.pagination}}</p>
+      <p *ngIf="ed.number_of_pages">Pages: {{ed.number_of_pages}}</p>
+      <p *ngIf="ed.publish_date">Publish Date: {{ed.publish_date}}</p>
+      <div *ngIf="ed.publishers">
+        Publishers:
+        <div *ngFor="let pub of ed.publishers">
+          <p>{{pub}}</p>
+        </div>
+      </div>
+      <img *ngIf="ed.covers && ed.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + ed.covers[0] + '-M.jpg'">
+      <ng-template #noPic> <b>NO COVER</b> </ng-template>
+    </div>
+  </div>
+
+</div>
+
+
+<div [formGroup]="form">
+  <select formControlName="searchBy">
+    <option *ngFor="let o of options"> {{o}} </option>
+  </select>
+  <input type="text" placeholder="search..." formControlName="searchBar">
+  <button (click)="onSearch()" [disabled]="form.invalid"> Search </button>
+</div>
+
+<app-search-result [book$]="bookToOutput$" [books$]="booksByTitle$"></app-search-result>
