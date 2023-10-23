@@ -21,6 +21,7 @@ export class AuthorService {
     const authorObservables = authors.map((a) => {
       return this.getAuthor(a.key);
     });
+    console.log("how many authors?: ",authorObservables.length);
     return forkJoin(authorObservables);
   }
 

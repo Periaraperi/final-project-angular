@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { AuthorApiData, BookSearchService, IEditions, IWork } from '../../services/book-search.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IISBNBook } from '../../models/book-model';
-import { Observable, map, of, switchMap} from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap} from 'rxjs';
 import { SearchResultComponent } from '../search-result/search-result.component';
 import { AuthorService } from '../../services/author.service';
 import { IAuthor } from '../../models/author-model';
+import { DEFAULT_WORK } from '../../services/book-search.service';
 
 @Component({
   selector: 'app-book-search',
@@ -25,6 +26,9 @@ export class BookSearchComponent {
   options: string[] = ["ISBN", "Title"];
   bookToOutput$: Observable<IISBNBook> | null = null;
   booksByTitle$: Observable<{title: string, description: string}[]> | null = null;
+
+  bookDocs$: Observable<{docs:{key: string}[]}> | null = null;
+  worksFromDocs$: Observable<IWork[]> | null = null;
 
   form = new FormGroup({
     searchBar: new FormControl(''),
@@ -48,10 +52,29 @@ export class BookSearchComponent {
     } else if (this.searchBy.value==="Title") {
       console.log("unda movzebno titleti");
       if (this.searchBar.value!==null) {
-        this.booksByTitle$ = this.bookService.searchByTitle(this.searchBar.value);
-        this.booksByTitle$.subscribe((res) => {
-          console.log(res);
-        });
+        this.bookDocs$ = this.bookService.searchByTitle2(this.searchBar.value);
+
+        this.worksFromDocs$ = this.bookDocs$.pipe(
+          switchMap((res) => {
+            if (res.docs.length===0) return of([]);
+
+            const workObservables: Observable<IWork>[] = res.docs.map((x) => {
+              return this.bookService.getWork(x.key).pipe(
+                catchError(() => {
+                  return of(DEFAULT_WORK);
+                })
+              );
+            });
+
+            return forkJoin(workObservables).pipe(
+              map((works) => {
+                return works.filter((w) => {
+                  return w.key!=="-1";
+                });
+              })
+            );
+          })
+        );
       }
     }
   }
@@ -82,7 +105,7 @@ export class BookSearchComponent {
   }
 
   onGetAuthorData(authors: AuthorApiData[], i: number) {
-    console.log(this.authors.length);
+    console.log(authors.length);
     this.authors[i] = this.authorService.getAuthors(authors);
   }
 

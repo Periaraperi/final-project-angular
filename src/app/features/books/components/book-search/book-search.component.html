@@ -25,9 +25,12 @@
         <button (click)="onGetAuthorData(ed.authors,i)">Get Author Data</button>
         <div *ngIf="authors[i] | async as authors">
           <p>Authors Data</p>
-          <div *ngFor="let a of authors"> {{a.name}}</div>
-          <div *ngFor="let a of authors"> {{a.birth_date}}</div>
-          <div *ngFor="let a of authors"> {{a.bio}}</div>
+          <div *ngFor="let a of authors; let authorId=index;">
+            {{authorId}} <br>
+            {{a.name}} <br>
+            {{a.birth_date}} <br>
+            {{a.bio}} <br>
+          </div>
         </div>
       </div>
 
@@ -48,13 +51,30 @@
   </div>
 </div>
 
-
 <div [formGroup]="form">
   <select formControlName="searchBy">
     <option *ngFor="let o of options"> {{o}} </option>
   </select>
   <input type="text" placeholder="search..." formControlName="searchBar">
   <button (click)="onSearch()" [disabled]="form.invalid"> Search </button>
+</div>
+
+
+<div>
+  <h3>Result of Search by title or query</h3>
+  <div *ngIf="worksFromDocs$ | async as allWorks; else waiting">
+    <div *ngIf="allWorks.length===0">Could not find anything :(</div>
+    <div *ngFor="let w of allWorks" style="border:3px solid black; margin:5px;">
+      <p><b>KEY:</b> {{w.key}}</p>
+      <p><b>Title:</b> {{w.title}}</p>
+      <p *ngIf="w.description"><b>DESCRIPTION:</b> {{w.description}}</p>
+      <div *ngIf="w.covers && w.covers.length>=1 && w.covers[0]!==-1; else noCover">
+        <img [src]="'https://covers.openlibrary.org/b/id/' + w.covers[0] + '-M.jpg'">
+      </div>
+      <ng-template #noCover><b>NO COVER!!!</b></ng-template>
+    </div>
+  </div>
+  <ng-template #waiting>trualobs kaci</ng-template>
 </div>
 
 <app-search-result [book$]="bookToOutput$" [books$]="booksByTitle$"></app-search-result>

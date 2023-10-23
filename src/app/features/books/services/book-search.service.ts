@@ -14,6 +14,14 @@ export interface IWork {
   covers: number[]; // id of cover pages
 }
 
+export const DEFAULT_WORK: IWork = {
+  key:"-1",
+  title:"",
+  description:"",
+  subjects:[],
+  covers:[]
+}
+
 export type AuthorApiData = {
     key: string; // api endpoint to get author info /authors/authorID
 };
@@ -51,6 +59,10 @@ export class BookSearchService {
 
   searchByQuery(query: string): Observable<{docs:{key: string}[]}> {
     return this.http.get<{docs:{key: string}[]}>(`https://openlibrary.org/search.json?q=${query}`);
+  }
+
+  searchByTitle2(title: string): Observable<{docs:{key: string}[]}> {
+    return this.http.get<{docs:{key: string}[]}>(`https://openlibrary.org/search.json?title=${title}`);
   }
 
   searchByTitle(title: string): Observable<{title:string, description:string}[]> {
