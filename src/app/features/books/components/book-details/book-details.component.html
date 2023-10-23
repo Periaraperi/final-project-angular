@@ -19,9 +19,7 @@
   <div>
     Authors info:
     <div *ngFor="let a of book.authorsDetails">
-      <p *ngIf="a.fuller_name"> FullName: {{a.fuller_name}} <p>
       <p *ngIf="a.name"> Name: {{a.name}} <p>
-      <p *ngIf="a.personal_name"> Personal Name: {{a.personal_name}} <p>
       <p *ngIf="a.birth_date"> BirthDate: {{a.birth_date}} <p>
       <p *ngIf="a.death_date"> DeathDate: {{a.death_date}} <p>
     </div>

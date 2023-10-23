@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookSearchService, IEditions, IWork } from '../../services/book-search.service';
+import { AuthorApiData, BookSearchService, IEditions, IWork } from '../../services/book-search.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IISBNBook } from '../../models/book-model';
 import { Observable, map, of, switchMap} from 'rxjs';
@@ -60,6 +60,8 @@ export class BookSearchComponent {
   // test things ======================================================
   // ==================================================================
 
+  authors: (Observable<IAuthor[]> | null)[] = [];
+
   work$: Observable<IWork> | null = null;
   onFetchWork() {
     this.work$ = this.bookService.getWork("/works/OL45804W");
@@ -69,10 +71,19 @@ export class BookSearchComponent {
 
   editions$: Observable<IEditions> | null = null;
   onGetEditons() {
-    //this.editions$ = this.bookService.getEditions("/works/OL45804W");
+    this.editions$ = this.bookService.getEditions("/works/OL45804W");
     //this.editions$ = this.bookService.getEditions("/works/OL27269313W");
     //this.editions$ = this.bookService.getEditions("/works/OL3939759W");
-    this.editions$ = this.bookService.getEditions("/works/OL27448W");
+    //this.editions$ = this.bookService.getEditions("/works/OL27448W");
+    this.authors = [];
+    this.editions$.forEach(() => {
+      this.authors.push(null);
+    });
+  }
+
+  onGetAuthorData(authors: AuthorApiData[], i: number) {
+    console.log(this.authors.length);
+    this.authors[i] = this.authorService.getAuthors(authors);
   }
 
 }

@@ -9,19 +9,14 @@ import { AuthorService } from './author.service';
 export interface IWork {
   key: string; // /works/WorkId
   title: string;
-  authors: {
-    author: {
-      key: string; // api endpoint to get author info /authors/authorID
-    };
-    type: {
-      key: string;
-    };
-  }[];
   description: string | {type: string; value: string};
   subjects: string[];
   covers: number[]; // id of cover pages
 }
 
+export type AuthorApiData = {
+    key: string; // api endpoint to get author info /authors/authorID
+};
 export interface IEditions {
   entries: {
     key: string; // of type /books/OL...M
@@ -31,18 +26,9 @@ export interface IEditions {
     number_of_pages: number;
     pagination: string;
     covers: number[];
-    authors: {
-      author: {
-        key: string; // api endpoint to get author info /authors/authorID
-      };
-      type: {
-        key: string;
-      };
-    }[];
+    authors: AuthorApiData[];
   }[]
 }
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +47,10 @@ export class BookSearchService {
 
   getBookDescription(id: string): Observable<{description?:string}> {
     return this.http.get<{description?:string}>(`${this._worksUrl}${id}.json`);
+  }
+
+  searchByQuery(query: string): Observable<{docs:{key: string}[]}> {
+    return this.http.get<{docs:{key: string}[]}>(`https://openlibrary.org/search.json?q=${query}`);
   }
 
   searchByTitle(title: string): Observable<{title:string, description:string}[]> {
@@ -138,7 +128,34 @@ export class BookSearchService {
     return this.http.get<IEditions>(`https://openlibrary.org${path}/editions.json`);
   }
 
+  /*
+  getEditionsWithAuthorInfo(path: string): Observable<IEditions> { // path is always /works/WORKID
+    const editions$ = this.http.get<IEditions>(`https://openlibrary.org${path}/editions.json`);
+    return editions$.pipe(
+      switchMap((editions) => {
+        const authorObservables: Observable<IAuthor[]>[] = [];
 
+        for (const entry of editions.entries) {
+          const aa: Observable<IAuthor>[] = entry.authors.map((a) => {
+            return this.authorService.getAuthor((a as AuthorApiData).author.key);
+          });
+          authorObservables.push(forkJoin(aa));
+        }
 
+        return forkJoin(authorObservables).pipe(
+          map((a) => {
+            let idx = 0;
+            while (idx<a.length) {
+              editions.entries[idx].authors = a[idx];
+              ++idx;
+            }
+            return editions;
+          })
+        );
+
+      })
+    );
+  }
+  */
 
 }

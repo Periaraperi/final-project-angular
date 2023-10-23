@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { IAuthor } from '../models/author-model';
+import { AuthorApiData } from './book-search.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,14 @@ export class AuthorService {
 
   getAuthor(path: string): Observable<IAuthor> {
     return this.http.get<IAuthor>(`${this.baseUrl}${path}.json`);
+  }
+
+  getAuthors(authors: AuthorApiData[]) {
+    console.log("hehehe");
+    const authorObservables = authors.map((a) => {
+      return this.getAuthor(a.key);
+    });
+    return forkJoin(authorObservables);
   }
 
 }

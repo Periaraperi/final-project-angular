@@ -10,9 +10,6 @@
       {{work.description}}
     </p>
 
-    <div *ngFor="let a of work.authors">
-      <p>{{a.author.key}}</p>
-    </div>
     <div *ngFor="let s of work.subjects">
       <p>{{s}}</p>
     </div>
@@ -21,7 +18,19 @@
 
   <button (click)="onGetEditons()">Editions</button>
   <div *ngIf="editions$ | async as editions">
-    <div *ngFor="let ed of editions.entries" style="border:3px solid black; margin:10px;">
+    <div *ngFor="let ed of editions.entries; let i=index" style="border:3px solid black; margin:10px;">
+      INDEX: {{i}}
+      <p *ngIf="!ed.authors"> <b>NO AUTHORS</b> </p>
+      <div *ngIf="ed.authors">
+        <button (click)="onGetAuthorData(ed.authors,i)">Get Author Data</button>
+        <div *ngIf="authors[i] | async as authors">
+          <p>Authors Data</p>
+          <div *ngFor="let a of authors"> {{a.name}}</div>
+          <div *ngFor="let a of authors"> {{a.birth_date}}</div>
+          <div *ngFor="let a of authors"> {{a.bio}}</div>
+        </div>
+      </div>
+
       <p>{{ed.key}}</p>
       <p>Title: {{ed.title}}</p>
       <p *ngIf="ed.pagination">Pagination: {{ed.pagination}}</p>
@@ -37,7 +46,6 @@
       <ng-template #noPic> <b>NO COVER</b> </ng-template>
     </div>
   </div>
-
 </div>
 
 
