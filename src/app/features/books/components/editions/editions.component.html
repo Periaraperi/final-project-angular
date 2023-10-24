@@ -1,0 +1,20 @@
+<h2> All Editions: </h2>
+
+<div *ngIf="editions$ | async as editions">
+  <div *ngFor="let ed of editions.entries; let editionIndex=index" style="border:3px solid black; margin:10px;">
+    <p>KEY: {{ed.key}}</p>
+    <p>Title: {{ed.title}}</p>
+
+    <button *ngIf="showDetails[editionIndex]" (click)="onHideDetails(editionIndex)">Hide Details</button>
+    <button *ngIf="!showDetails[editionIndex]" (click)="onShowDetails(editionIndex)">Show Details</button>
+    <app-book-details *ngIf="showDetails[editionIndex]"
+      [pageCount]="ed.number_of_pages"
+      [pagination]="ed.pagination"
+      [publishDate]="ed.publish_date"
+      [publishers]="ed.publishers"
+      [authors]="ed.authors"></app-book-details>
+
+    <img *ngIf="ed.covers && ed.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + ed.covers[0] + '-M.jpg'">
+    <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>
+  </div>
+</div>

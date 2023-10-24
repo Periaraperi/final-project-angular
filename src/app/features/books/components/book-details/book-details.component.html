@@ -1,27 +1,18 @@
-<div *ngIf="book$ | async as book" style="border: 2px solid black">
-  <div *ngIf="book.isbn_10; else withIsbn13">
-    <img [src]="'https://covers.openlibrary.org/b/isbn/' + book.isbn_10 + '-L.jpg'">
-  </div>
-  <ng-template #withIsbn13>
-    <img [src]="'https://covers.openlibrary.org/b/isbn/' + book.isbn_13 + '-L.jpg'">
-  </ng-template>
-
-  Title: {{book.title}} <br>
-  Publishers: <div *ngFor="let pub of book.publishers">{{pub}}<br></div>
-  Description: {{book.description}} <br>
-  <div *ngIf="book.number_of_pages; else withPagination">
-    Pages: {{book.number_of_pages}} <br>
-  </div>
-  <ng-template #withPagination>
-    Pages: {{book.pagination}} <br>
-  </ng-template>
-
-  <div>
-    Authors info:
-    <div *ngFor="let a of book.authorsDetails">
-      <p *ngIf="a.name"> Name: {{a.name}} <p>
-      <p *ngIf="a.birth_date"> BirthDate: {{a.birth_date}} <p>
-      <p *ngIf="a.death_date"> DeathDate: {{a.death_date}} <p>
-    </div>
+<div *ngIf="authorsData$ | async as authorsData">
+  Authors:
+  <div *ngFor="let a of authorsData">
+    <p>Name: {{a.name}}</p>
+    <p *ngIf="a.birth_date">Birth Date: {{a.birth_date}}</p>
+    <p *ngIf="a.death_date">Death Date: {{a.death_date}}</p>
+    <p *ngIf="a.bio">Bio: {{a.bio}}</p>
   </div>
 </div>
+
+<p *ngIf="pagination">Pagination: {{pagination}}</p>
+<p *ngIf="pageCount">Pages: {{pageCount}}</p>
+<p *ngIf="publishDate">Publish Date: {{publishDate}}</p>
+<div *ngIf="publishers">
+  Publishers:
+  <p *ngFor="let pub of publishers">{{pub}} </p>
+</div>
+

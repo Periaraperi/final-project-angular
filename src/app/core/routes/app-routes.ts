@@ -23,8 +23,8 @@ export const appRoutes: Routes = [
     loadComponent: () => import('../../features/books/components/book-search/book-search.component').then(mod => mod.BookSearchComponent)
   },
   {
-    path: 'books/details/:isbn',
-    loadComponent: () => import('../../features/books/components/book-details/book-details.component').then(mod => mod.BookDetailsComponent)
+    path: 'books/editions/:workId',
+    loadComponent: () => import('../../features/books/components/editions/editions.component').then(mod => mod.EditionsComponent)
   }
 ];
 

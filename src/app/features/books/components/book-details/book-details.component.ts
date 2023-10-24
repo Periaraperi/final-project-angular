@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { FullInfo, IISBNBook } from '../../models/book-model';
-import { IAuthor } from '../../models/author-model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BookSearchService } from '../../services/book-search.service';
+import { IAuthor } from '../../models/models';
+import { AuthorEndPoint } from '../../models/models';
+import { AuthorService } from '../../services/author.service';
 
 @Component({
   selector: 'app-book-details',
@@ -14,12 +13,20 @@ import { BookSearchService } from '../../services/book-search.service';
   styleUrls: ['./book-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookDetailsComponent {
-  book$: Observable<FullInfo> | null = null;
-  isbn: string = "";
-  constructor(private router: ActivatedRoute, private bookService: BookSearchService) {
-    this.isbn = this.router.snapshot.paramMap.get('isbn')!;
-    console.log(this.isbn);
-    this.book$ = this.bookService.getFullInfo(this.isbn);
+export class BookDetailsComponent implements OnInit {
+  @Input() pagination: string | null = null;
+  @Input() pageCount: number | null = null;
+  @Input() publishDate: string | null = null;
+  @Input() publishers: string[] | null = null;
+  @Input() authors: AuthorEndPoint[] | null = null;
+  authorsData$: Observable<IAuthor[]> | null = null;
+
+  constructor(private authorService: AuthorService) {}
+
+  ngOnInit(): void {
+    if (this.authors) {
+      this.authorsData$ = this.authorService.getAuthors(this.authors);
+    }
   }
+
 }

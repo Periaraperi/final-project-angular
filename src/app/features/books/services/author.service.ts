@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
-import { IAuthor } from '../models/author-model';
-import { AuthorApiData } from './book-search.service';
+import { Observable, forkJoin, map } from 'rxjs';
+import { AuthorEndPoint, IAuthor} from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +12,20 @@ export class AuthorService {
   private baseUrl = "https://openlibrary.org";
 
   getAuthor(path: string): Observable<IAuthor> {
-    return this.http.get<IAuthor>(`${this.baseUrl}${path}.json`);
+    return this.http.get<IAuthor>(`${this.baseUrl}${path}.json`).pipe(
+      map((a) => {
+        if (typeof a.bio==='object') {
+          return {...a, bio:a.bio.value};
+        }
+        return a;
+      })
+    );
   }
 
-  getAuthors(authors: AuthorApiData[]) {
-    console.log("hehehe");
+  getAuthors(authors: AuthorEndPoint[]): Observable<IAuthor[]> {
     const authorObservables = authors.map((a) => {
       return this.getAuthor(a.key);
     });
-    console.log("how many authors?: ",authorObservables.length);
     return forkJoin(authorObservables);
   }
 

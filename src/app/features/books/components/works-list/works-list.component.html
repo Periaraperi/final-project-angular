@@ -1,0 +1,18 @@
+<div *ngIf="foundWorks$ | async as foundWorks; else waiting">
+  <h2>Results:</h2>
+  <div *ngIf="foundWorks.length===0">Could not find anything :(</div>
+  <div *ngFor="let w of foundWorks; let workIndex=index" style="border:3px solid black; margin:5px;">
+    {{workIndex}}
+    <p><b>KEY:</b> {{w.key}}</p>
+    <p><b>Title:</b> {{w.title}}</p>
+    <p *ngIf="w.description"><b>DESCRIPTION:</b> {{w.description}}</p>
+    <div *ngIf="w.covers && w.covers.length>=1 && w.covers[0]!==-1; else noCover">
+      <img [src]="'https://covers.openlibrary.org/b/id/' + w.covers[0] + '-M.jpg'">
+    </div>
+    <ng-template #noCover><img src="../../../../../assets/noCover.jpg" width="150px" height="200px"></ng-template>
+    <button [routerLink]="['editions',w.key.toString()]">Specific Editions</button>
+  </div>
+</div>
+<ng-template #waiting>
+  <p *ngIf="waitingForSearch">Waiting...</p>
+</ng-template>
