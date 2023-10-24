@@ -6,4 +6,22 @@
   <input type="text" placeholder="search..." formControlName="searchBar">
   <button (click)="onSearch()" [disabled]="form.invalid"> Search </button>
 </div>
-<app-works-list [foundWorks$]="works$" [waitingForSearch]="waiting"></app-works-list>
+
+<div *ngIf="specificBook$ | async as book">
+  <div style="border:3px solid black">
+    <img *ngIf="book.covers && book.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + book.covers[0] + '-M.jpg'">
+    <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"></ng-template>
+    <app-book-details
+      [title]="book.title"
+      [pageCount]="book.number_of_pages"
+      [pagination]="book.pagination"
+      [publishers]="book.publishers"
+      [subjects]="book.subjects"
+      [authors]="book.authors">
+    </app-book-details>
+  </div>
+  <button [routerLink]="['./editions',book.works[0].key.toString()]">Other Editions</button>
+</div>
+<div *ngIf="works$">
+  <app-works-list [foundWorks$]="works$" [waitingForSearch]="waiting"></app-works-list>
+</div>

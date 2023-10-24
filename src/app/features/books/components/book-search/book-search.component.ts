@@ -4,12 +4,14 @@ import { BookSearchService } from '../../services/book-search.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { WorksListComponent } from '../works-list/works-list.component';
-import { IWork } from '../../models/models';
+import { IBookISBN, IWork } from '../../models/models';
+import { BookDetailsComponent } from '../book-details/book-details.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book-search',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, WorksListComponent],
+  imports: [CommonModule, ReactiveFormsModule, WorksListComponent, BookDetailsComponent, RouterLink],
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,9 +21,10 @@ export class BookSearchComponent {
     this.searchBy.setValue(this.options[0]);
   }
 
-  options: string[] = ["title", "query", "author"];
+  options: string[] = ["title", "query", "author", "isbn"];
 
   works$: Observable<IWork[]> | null = null;
+  specificBook$: Observable<IBookISBN> | null = null; // book found by isbn
 
   // form ==============================
   form = new FormGroup({
@@ -36,6 +39,7 @@ export class BookSearchComponent {
 
   onSearch(): void {
     this.works$ = null;
+    this.specificBook$ = null;
     this.waiting = false;
 
     if (this.searchBy.value==="title") {
@@ -52,6 +56,11 @@ export class BookSearchComponent {
       if (this.searchBar.value!==null) {
         this.waiting = true;
         this.works$ = this.bookService.searchByAuthor(this.searchBar.value);
+      }
+    } else if (this.searchBy.value==="isbn") {
+      if (this.searchBar.value!==null) {
+        this.waiting = true;
+        this.specificBook$ = this.bookService.searchByISBN(this.searchBar.value);
       }
     }
   }

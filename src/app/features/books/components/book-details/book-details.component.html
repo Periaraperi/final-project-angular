@@ -1,3 +1,5 @@
+<p *ngIf="title">Title: {{title}}</p>
+
 <div *ngIf="authorsData$ | async as authorsData">
   Authors:
   <div *ngFor="let a of authorsData">
@@ -16,3 +18,7 @@
   <p *ngFor="let pub of publishers">{{pub}} </p>
 </div>
 
+<div *ngIf="subjects">
+  Subjects:
+  <p *ngFor="let sub of subjects">{{sub}} </p>
+</div>

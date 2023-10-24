@@ -14,6 +14,8 @@ import { AuthorService } from '../../services/author.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookDetailsComponent implements OnInit {
+  @Input() title: string | null = null;
+  @Input() subjects: string[] | null = null;
   @Input() pagination: string | null = null;
   @Input() pageCount: number | null = null;
   @Input() publishDate: string | null = null;

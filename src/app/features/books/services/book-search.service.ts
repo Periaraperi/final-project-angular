@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, ErrorObserver, switchMap, map, forkJoin, tap, of } from 'rxjs';
-import { IWork, IEditions, DEFAULT_WORK } from '../models/models';
+import { IWork, IEditions, DEFAULT_WORK, IBookISBN } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,10 @@ export class BookSearchService {
   public searchByAuthor(author: string): Observable<IWork[]> {
     const res = this.http.get<{docs:{key: string}[]}>(`https://openlibrary.org/search.json?author=${author}&sort=new`);
     return this.modified(res);
+  }
+
+  public searchByISBN(isbn: string): Observable<IBookISBN> {
+    return this.http.get<IBookISBN>(`https://openlibrary.org/isbn/${isbn}.json`);
   }
 
   // returns all found editions of specific work

@@ -15,6 +15,17 @@ export const DEFAULT_WORK: IWork = {
   covers:[]
 }
 
+export interface IBookISBN {
+  title: string;
+  publishers: string[];
+  authors: AuthorEndPoint[];
+  works: {key:string}[]; // api end point for works, maybe to fetch all editions
+  subjects: string[];
+  covers: number[];
+  pagination: string;
+  number_of_pages: number;
+}
+
 export type AuthorEndPoint = {
     key: string; // api endpoint to get author info /authors/authorID
 };
