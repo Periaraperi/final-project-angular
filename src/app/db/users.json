@@ -4,31 +4,46 @@
       "email": "abc@gmail.com",
       "nickname": "Ehsan",
       "password": "123qweasd",
-      "id": "RCHIX476"
+      "id": "RCHIX476",
+      "history": [
+        {
+          "key": "/books/OL7407663M"
+        },
+        {
+          "key": "/books/OL7336679M"
+        },
+        {
+          "key": "/books/OL48245394M"
+        }
+      ]
     },
     {
       "email": "gena@gmail.com",
       "nickname": "Gena",
       "password": "123123123",
-      "id": "MWMKF112"
+      "id": "MWMKF112",
+      "history": []
     },
     {
       "email": "vano@yahoo.com",
       "nickname": "Vano21",
       "password": "123123123",
-      "id": "NAWOJ422"
+      "id": "NAWOJ422",
+      "history": []
     },
     {
       "email": "kaiKaci@gmail.com",
       "nickname": "biba",
       "password": "123123123",
-      "id": "PBMGC671"
+      "id": "PBMGC671",
+      "history": []
     },
     {
       "email": "kaikaci@gmail.com",
       "nickname": "asdasdds",
       "password": "123123123",
-      "id": "RNNWV976"
+      "id": "RNNWV976",
+      "history": []
     }
   ]
 }

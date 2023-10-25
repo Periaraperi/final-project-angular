@@ -12,6 +12,7 @@
       <a (click)="onLogOut()">Log Out</a>
     </ng-template>
 
-    <a routerLink="/books" routerLinkActive="active">Search</a>
+    <a routerLink="/books" routerLinkActive="active">Search</a> <br>
+    <a *ngIf="(isLoggedIn$ | async)" routerLink="/users/profile" routerLinkActive="active">My Profile</a>
   </nav>
 </header>

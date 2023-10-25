@@ -33,6 +33,14 @@ export class BookSearchService {
     return this.http.get<IBookISBN>(`https://openlibrary.org/isbn/${isbn}.json`);
   }
 
+  public getBooks(bookKeys: {key:string}[]): Observable<IBookISBN[]> {
+    if (bookKeys.length===0) return of([]);
+    const bookObservables = bookKeys.map((elem) => {
+      return this.http.get<IBookISBN>(`https://openlibrary.org${elem.key}.json`);
+    });
+    return forkJoin(bookObservables);
+  }
+
   // returns all found editions of specific work
   getEditions(path: string): Observable<IEditions> { // path is always /works/WORKID
     return this.http.get<IEditions>(`https://openlibrary.org${path}/editions.json`);

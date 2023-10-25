@@ -39,7 +39,8 @@ export class RegisterComponent {
     const newUserData: IUser = {
       email: formValues.email!,
       nickname: formValues.nickname!,
-      password: formValues.password.pass1!
+      password: formValues.password.pass1!,
+      history: []
     };
     this.userService.isUserValid(newUserData).subscribe(
       (ok) => {

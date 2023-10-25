@@ -13,6 +13,7 @@
       [publishDate]="ed.publish_date"
       [publishers]="ed.publishers"
       [authors]="ed.authors"></app-book-details>
+    <button *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(ed.key)">Mark for me</button>
 
     <img *ngIf="ed.covers && ed.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + ed.covers[0] + '-M.jpg'">
     <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>

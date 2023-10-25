@@ -81,5 +81,23 @@ export class UserService {
     )!;
   }
 
+  addBook(key: string) {
+    if (this._currentlyLoggedInUser===undefined) throw Error("trying to mark book as undefined user");
+    this.http.get<IUser>(`${this._usersDbUrl}/${this._currentlyLoggedInUser.id}`).subscribe(
+      (res) => {
+        if (res.history.find((elem) => {return elem.key===key})===undefined) {
+          const patchedData = {history:[...res.history, {key:key}]};
+          this.http.patch(`${this._usersDbUrl}/${this._currentlyLoggedInUser!.id}`,patchedData).subscribe(
+            () => {
+              // need to also update cache map and currentlyLogged user
+              const u = {...this._idMap.get(res.id!)!, history:patchedData.history};
+              this._idMap.set(res.id!, u);
+              this._currentlyLoggedInUser = u;
+            }
+          );
+        }
+      }
+    );
+  }
 
 }
