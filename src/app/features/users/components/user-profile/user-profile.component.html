@@ -1,2 +1,13 @@
 <h1>User Profile</h1>
+
+<h2>User Info</h2>
+<div *ngIf="loggedInUser$ | async as user">
+  <div *ngIf="user">
+    NickName: {{user.nickname}}
+    Email: {{user.email}}
+    Password: {{user.password}}
+    LibId: {{user.id}}
+  </div>
+</div>
+
 <p>My Books: Should get books for this user</p>

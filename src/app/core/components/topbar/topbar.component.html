@@ -2,10 +2,16 @@
   <nav style="border:1px solid black">
     <a routerLink="/home" routerLinkActive="active">Home</a>
     <br>
-    <a routerLink="/auth/login" routerLinkActive="active">Log In</a>
-    <br>
-    <a routerLink="/auth/register" routerLinkActive="active">Sign Up</a>
-    <br>
+    <div *ngIf="!(isLoggedIn$ | async); else logOut">
+      <a routerLink="/auth/login" routerLinkActive="active">Log In</a>
+      <br>
+      <a routerLink="/auth/register" routerLinkActive="active">Sign Up</a>
+      <br>
+    </div>
+    <ng-template #logOut>
+      <a (click)="onLogOut()">Log Out</a>
+    </ng-template>
+
     <a routerLink="/books" routerLinkActive="active">Search</a>
   </nav>
 </header>

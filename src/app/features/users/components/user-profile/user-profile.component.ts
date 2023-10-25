@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { IUser } from '../../models/user-model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +12,10 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./user-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserProfileComponent {
-  constructor(private userService: UserService) {
+export class UserProfileComponent implements OnInit {
+  constructor(private userService: UserService) {}
+  loggedInUser$: Observable<IUser | undefined> | null = null;
+  ngOnInit(): void {
+    this.loggedInUser$ = this.userService.LoggedInUser;
   }
 }
