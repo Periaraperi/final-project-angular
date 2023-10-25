@@ -41,6 +41,11 @@ export class BookSearchService {
     return forkJoin(bookObservables);
   }
 
+  public getWorks(workIds: string[]): Observable<IWork[]> {
+    const workObservables = workIds.map((workId) => {return this.getWork(workId);});
+    return forkJoin(workObservables);
+  }
+
   // returns all found editions of specific work
   getEditions(path: string): Observable<IEditions> { // path is always /works/WORKID
     return this.http.get<IEditions>(`https://openlibrary.org${path}/editions.json`);

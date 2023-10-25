@@ -16,4 +16,5 @@ import { RouterLink } from '@angular/router';
 export class WorksListComponent {
   @Input() foundWorks$: Observable<IWork[]> | null = null;
   @Input() waitingForSearch: boolean = false;
+  @Input() showDescription: boolean = true;
 }
