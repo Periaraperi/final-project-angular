@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { IUser } from '../../models/user-model';
@@ -15,7 +15,9 @@ import { IBookISBN } from 'src/app/features/books/models/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserProfileComponent implements OnInit {
-  constructor(private userService: UserService, private bookService: BookSearchService) {}
+  constructor(private userService: UserService,
+              private bookService: BookSearchService,
+              private cd: ChangeDetectorRef) {}
   loggedInUser$: Observable<IUser | undefined> | null = null;
   markedBooks$: Observable<IBookISBN[]> | null = null;
 
@@ -31,4 +33,21 @@ export class UserProfileComponent implements OnInit {
       }
     );
   }
+
+  onRemove(key: string): void {
+    this.userService.removeBook(key).subscribe(
+      (removed) => {
+        if (removed) {
+          this.loggedInUser$ = this.userService.LoggedInUser;
+          this.loggedInUser$.subscribe(
+            (res) => {
+              this.markedBooks$ = this.bookService.getBooks(res?.history!);
+              this.cd.markForCheck();
+            }
+          );
+        }
+      }
+    );
+  }
+
 }

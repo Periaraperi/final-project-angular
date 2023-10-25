@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IUser } from '../models/user-model';
-import { Observable, pipe, map, tap, of, BehaviorSubject } from 'rxjs';
+import { Observable, pipe, map, tap, of, BehaviorSubject, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { genId } from 'src/app/core/utils';
@@ -98,6 +98,30 @@ export class UserService {
         }
       }
     );
+  }
+
+  removeBook(key: string): Observable<boolean> {
+    if (this._currentlyLoggedInUser===undefined) throw Error("trying to remove book as undefined user");
+    return this.http.get<IUser>(`${this._usersDbUrl}/${this._currentlyLoggedInUser.id}`).pipe(
+      switchMap((res) => {
+        const index = res.history.findIndex((elem) => {return elem.key===key;});
+        if (index!==-1) {
+          res.history.splice(index,1);
+          const patchedData = {history:res.history};
+          return this.http.patch(`${this._usersDbUrl}/${this._currentlyLoggedInUser!.id}`,patchedData).pipe(
+            map(() => {
+              // need to also update cache map and currentlyLogged user
+              const u = {...this._idMap.get(res.id!)!, history:[...res.history]};
+              this._idMap.set(res.id!, u);
+              this._currentlyLoggedInUser = u;
+              console.log(this._currentlyLoggedInUser.history.length);
+              return true;
+            }
+          ));
+        }
+        return of(false);
+      }
+    ));
   }
 
 }
