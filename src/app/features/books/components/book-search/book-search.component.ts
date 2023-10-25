@@ -7,6 +7,7 @@ import { WorksListComponent } from '../works-list/works-list.component';
 import { IBookISBN, IWork } from '../../models/models';
 import { BookDetailsComponent } from '../book-details/book-details.component';
 import { RouterLink } from '@angular/router';
+import { UserService } from 'src/app/features/users/services/user.service';
 
 @Component({
   selector: 'app-book-search',
@@ -17,7 +18,7 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookSearchComponent {
-  constructor(private bookService: BookSearchService) {
+  constructor(private bookService: BookSearchService, private userService: UserService) {
     this.searchBy.setValue(this.options[0]);
   }
 
@@ -25,6 +26,8 @@ export class BookSearchComponent {
 
   works$: Observable<IWork[]> | null = null;
   specificBook$: Observable<IBookISBN> | null = null; // book found by isbn
+
+  isLoggedIn$ = this.userService.isLoggedIn$;
 
   // form ==============================
   form = new FormGroup({
@@ -64,4 +67,11 @@ export class BookSearchComponent {
       }
     }
   }
+
+  onMarkBook(key: string) {
+    console.log(key);
+    this.userService.addBook(key);
+  }
+
+
 }

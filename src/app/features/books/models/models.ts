@@ -16,6 +16,7 @@ export const DEFAULT_WORK: IWork = {
 }
 
 export interface IBookISBN {
+  key: string; // key to specific book. Similar to isbn path
   title: string;
   publishers: string[];
   authors: AuthorEndPoint[];

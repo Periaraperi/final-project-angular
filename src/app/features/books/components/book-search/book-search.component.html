@@ -21,6 +21,7 @@
     </app-book-details>
   </div>
   <button [routerLink]="['./editions',book.works[0].key.toString()]">Other Editions</button>
+  <button *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(book.key)">Mark for me</button>
 </div>
 <div *ngIf="works$">
   <app-works-list [foundWorks$]="works$" [waitingForSearch]="waiting"></app-works-list>
