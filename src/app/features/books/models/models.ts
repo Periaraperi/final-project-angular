@@ -27,6 +27,18 @@ export interface IBookISBN {
   number_of_pages: number;
 }
 
+export const DEFAULT_ISBN_BOOK: IBookISBN = {
+  key: "",
+  title: "",
+  publishers: [],
+  authors: [],
+  works: [],
+  subjects: [],
+  covers: [],
+  pagination: "",
+  number_of_pages: 0,
+}
+
 export type AuthorEndPoint = {
     key: string; // api endpoint to get author info /authors/authorID
 };

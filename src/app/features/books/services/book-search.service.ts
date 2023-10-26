@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, ErrorObserver, switchMap, map, forkJoin, tap, of } from 'rxjs';
-import { IWork, IEditions, DEFAULT_WORK, IBookISBN } from '../models/models';
+import { IWork, IEditions, DEFAULT_WORK, IBookISBN, DEFAULT_ISBN_BOOK } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +34,18 @@ export class BookSearchService {
   }
 
   public getBooks(bookKeys: {key:string}[]): Observable<IBookISBN[]> {
+    console.log(bookKeys);
     if (bookKeys.length===0) return of([]);
     const bookObservables = bookKeys.map((elem) => {
-      return this.http.get<IBookISBN>(`https://openlibrary.org${elem.key}.json`);
+      return this.http.get<IBookISBN>(`https://openlibrary.org${elem.key}.json`).pipe(
+        catchError(() => {return of(DEFAULT_ISBN_BOOK)})
+      );
     });
-    return forkJoin(bookObservables);
+    return forkJoin(bookObservables).pipe(
+      map((data) => {
+        return data.filter((elem) => {return elem.key!==""});
+      })
+    );
   }
 
   public getWorks(workIds: string[]): Observable<IWork[]> {

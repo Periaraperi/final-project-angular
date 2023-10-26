@@ -19,6 +19,11 @@ export class UserService {
   get LoggedInUser(): Observable<IUser | undefined> {
     return of(this._currentlyLoggedInUser);
   }
+  get LoggedInUserId(): LibId {
+    if (this._currentlyLoggedInUser!==undefined)
+      return this._currentlyLoggedInUser.id!;
+    return "";
+  }
 
   // need this for shared info. Topbar needs this
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
@@ -35,6 +40,10 @@ export class UserService {
     this._registeredUsers$.subscribe((users) => {
       users.forEach((user) => {this._idMap.set(user.id!,user)});
     });
+  }
+
+  getUserInfo(uId: LibId): Observable<IUser> {
+    return this.http.get<IUser>(`${this._usersDbUrl}/${uId}`);
   }
 
   registerUser(newUserData: IUser): Observable<void> {

@@ -29,6 +29,14 @@ export const appRoutes: Routes = [
   {
     path: 'books/editions/:workId',
     loadComponent: () => import('../../features/books/components/editions/editions.component').then(mod => mod.EditionsComponent)
+  },
+  {
+    path: 'reviews',
+    loadComponent: () => import('../../features/reviews/components/reviews-main/reviews-main.component').then(mod => mod.ReviewsMainComponent)
+  },
+  {
+    path: 'reviews/book/:bookId',
+    loadComponent: () => import('../../features/reviews/components/review/review.component').then(mod => mod.ReviewComponent)
   }
 ];
 

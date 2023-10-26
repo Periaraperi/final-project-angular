@@ -7,7 +7,6 @@
 </app-pagination>
 <div *ngIf="slicedEditions$ | async as editions">
   <div *ngFor="let ed of editions.entries; let editionIndex=index" style="border:3px solid black; margin:10px;">
-    <p>KEY: {{ed.key}}</p>
     <p>Title: {{ed.title}}</p>
 
     <button *ngIf="showDetails[editionIndex]" (click)="onHideDetails(editionIndex)">Hide Details</button>
@@ -19,6 +18,8 @@
       [publishers]="ed.publishers"
       [authors]="ed.authors"></app-book-details>
     <button *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(ed.key)">Mark for me</button>
+
+    <button (click)="onViewReviews(ed.key)">Reviews</button>
 
     <img *ngIf="ed.covers && ed.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + ed.covers[0] + '-M.jpg'">
     <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>

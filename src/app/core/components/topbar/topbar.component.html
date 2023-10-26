@@ -1,18 +1,19 @@
 <header>
   <nav style="border:1px solid black">
-    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <button routerLink="/home" routerLinkActive="active">Home</button>
     <br>
     <div *ngIf="!(isLoggedIn$ | async); else logOut">
-      <a routerLink="/auth/login" routerLinkActive="active">Log In</a>
+      <button routerLink="/auth/login" routerLinkActive="active">Log In</button>
       <br>
-      <a routerLink="/auth/register" routerLinkActive="active">Sign Up</a>
+      <button routerLink="/auth/register" routerLinkActive="active">Sign Up</button>
       <br>
     </div>
     <ng-template #logOut>
-      <a (click)="onLogOut()">Log Out</a>
+      <button (click)="onLogOut()">Log Out</button> <br>
     </ng-template>
 
-    <a routerLink="/books" routerLinkActive="active">Search</a> <br>
-    <a *ngIf="(isLoggedIn$ | async)" routerLink="/users/profile" routerLinkActive="active">My Profile</a>
+    <button routerLink="/books" routerLinkActive="active">Search</button> <br>
+    <button routerLink="/reviews" routerLinkActive="active">Reviews</button> <br>
+    <button *ngIf="(isLoggedIn$ | async)" routerLink="/users/profile" routerLinkActive="active">My Profile</button>
   </nav>
 </header>

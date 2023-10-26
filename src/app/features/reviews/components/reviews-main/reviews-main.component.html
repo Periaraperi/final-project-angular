@@ -1,0 +1,14 @@
+<h1> All Reviews: </h1>
+
+<div *ngIf="reviews$ | async as revs">
+  <div *ngIf="books$ | async as books">
+    <div *ngFor="let book of books; let i=index">
+      <div style="border:3px solid black">
+        <img *ngIf="book.covers && book.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + book.covers[0] + '-M.jpg'">
+        <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"></ng-template>
+        <app-book-details [title]="book.title"></app-book-details>
+        <button (click)="onSeeReviews(revs[i].id)">Reviews</button>
+      </div>
+    </div>
+  </div>
+</div>

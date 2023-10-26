@@ -1,0 +1,31 @@
+<h1>Review</h1>
+
+<div *ngIf="book$ | async as book">
+  <div style="border:3px solid black">
+    <img *ngIf="book.covers && book.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + book.covers[0] + '-M.jpg'">
+    <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"></ng-template>
+    <app-book-details [title]="book.title"></app-book-details>
+  </div>
+</div>
+
+<div *ngIf="allReviews$ | async as reviews; else error">
+  <p><b>Reviews</b></p>
+  <div *ngIf="reviews">
+    <div *ngIf="reviews.texts.length===0">
+      <p>No reviews YET!</p>
+    </div>
+    <div *ngIf="userNames$ | async as users">
+      <div *ngFor="let t of reviews.texts; let i=index" style="border:1px solid black;">
+        <p><b>{{users[i].nickname}}:</b></p>
+        <p>{{t.value}}</p>
+      </div>
+    </div>
+
+    <form *ngIf="isLoggedIn$ | async" [formGroup]="form">
+      <textarea formControlName="comment" rows="4" placeholder="add your comment here..."></textarea>
+      <button [disabled]="form.invalid" (click)="onComment()">Add Review</button>
+    </form>
+  </div>
+</div>
+<ng-template #error> Error: Unknown Book </ng-template>
+

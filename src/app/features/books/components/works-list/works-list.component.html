@@ -2,8 +2,6 @@
   <h2>Results:</h2>
   <div *ngIf="foundWorks.length===0">Could not find anything :(</div>
   <div *ngFor="let w of foundWorks; let workIndex=index" style="border:3px solid black; margin:5px;">
-    {{workIndex}}
-    <p><b>KEY:</b> {{w.key}}</p>
     <p><b>Title:</b> {{w.title}}</p>
     <p *ngIf="w.description && showDescription"><b>DESCRIPTION:</b> {{w.description}}</p>
     <div *ngIf="w.covers && w.covers.length>=1 && w.covers[0]!==-1; else noCover">
