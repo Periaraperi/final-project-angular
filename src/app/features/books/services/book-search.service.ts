@@ -30,7 +30,9 @@ export class BookSearchService {
   }
 
   public searchByISBN(isbn: string): Observable<IBookISBN> {
-    return this.http.get<IBookISBN>(`https://openlibrary.org/isbn/${isbn}.json`);
+    return this.http.get<IBookISBN>(`https://openlibrary.org/isbn/${isbn}.json`).pipe(
+      catchError(() => {return of(DEFAULT_ISBN_BOOK);})
+    );
   }
 
   public getBooks(bookKeys: {key:string}[]): Observable<IBookISBN[]> {
