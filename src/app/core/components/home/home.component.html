@@ -2,4 +2,8 @@
 
 <h2>Trending Works</h2>
 
-<app-works-list [foundWorks$]="trendingWorks$" [showDescription]="false"></app-works-list>
+<app-pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"></app-pagination>
+<app-works-list [foundWorks$]="slicedWorks$" [showDescription]="false"></app-works-list>

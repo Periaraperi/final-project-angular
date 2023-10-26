@@ -1,6 +1,11 @@
 <h2> All Editions: </h2>
 
-<div *ngIf="editions$ | async as editions">
+<app-pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)">
+</app-pagination>
+<div *ngIf="slicedEditions$ | async as editions">
   <div *ngFor="let ed of editions.entries; let editionIndex=index" style="border:3px solid black; margin:10px;">
     <p>KEY: {{ed.key}}</p>
     <p>Title: {{ed.title}}</p>
@@ -19,3 +24,8 @@
     <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>
   </div>
 </div>
+<app-pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)">
+</app-pagination>

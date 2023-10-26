@@ -11,7 +11,11 @@
 </div>
 
 <h2>My Books:</h2>
-<div *ngIf="markedBooks$ | async as books">
+<app-pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"></app-pagination>
+<div *ngIf="slicedMarkedBooks$ | async as books">
   <div *ngFor="let b of books" style="border:1px solid black;">
     <p> Title:{{b.title}} </p>
     <button (click)="onRemove(b.key)">Remove</button>
@@ -19,3 +23,9 @@
     <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>
   </div>
 </div>
+<app-pagination
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"></app-pagination>
+
+

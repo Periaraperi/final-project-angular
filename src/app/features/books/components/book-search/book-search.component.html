@@ -24,5 +24,15 @@
   <button *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(book.key)">Mark for me</button>
 </div>
 <div *ngIf="works$">
-  <app-works-list [foundWorks$]="works$" [waitingForSearch]="waiting"></app-works-list>
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChanged)="onPageChange($event)">
+  </app-pagination>
+  <app-works-list [foundWorks$]="slicedWorks$" [waitingForSearch]="waiting"></app-works-list>
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+      (pageChanged)="onPageChange($event)">
+  </app-pagination>
 </div>

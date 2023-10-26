@@ -1,0 +1,5 @@
+<div *ngIf="!waitingForSearch">
+  <button (click)="prevPage()">Prev</button>
+  <p> - {{currentPage}}/{{totalPages}} - </p>
+  <button (click)="nextPage()">Next</button>
+</div>

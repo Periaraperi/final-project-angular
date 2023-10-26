@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookSearchService } from 'src/app/features/books/services/book-search.service';
 import { IWork } from 'src/app/features/books/models/models';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { WorksListComponent } from 'src/app/features/books/components/works-list/works-list.component';
+import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, WorksListComponent],
+  imports: [CommonModule, WorksListComponent, PaginationComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,9 +32,31 @@ export class HomeComponent implements OnInit {
   ];
 
   trendingWorks$: Observable<IWork[]> | null = null;
+  slicedWorks$: Observable<IWork[]> | null = null;
 
   ngOnInit(): void {
     this.trendingWorks$ = this.bookService.getWorks(this.workIds);
+    this.slicedWorks$ = this.getPaginated(this.trendingWorks$);
+  }
+
+  totalPages: number = 0;
+  currentPage: number = 1;
+  limit: number = 5;
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.slicedWorks$ = this.getPaginated(this.trendingWorks$!);
+  }
+
+  private getPaginated(works$: Observable<IWork[]>): Observable<IWork[]> {
+    return works$.pipe(
+      map((works) => {
+        this.totalPages = Math.ceil(works.length / this.limit);
+        const startIndex = (this.currentPage-1)*this.limit;
+        const endIndex = Math.min(startIndex+this.limit, works.length);
+        return works.slice(startIndex, endIndex);
+      })
+    );
   }
 
 }
