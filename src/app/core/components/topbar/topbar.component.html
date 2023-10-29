@@ -1,19 +1,20 @@
 <header>
-  <nav style="border:1px solid black">
-    <button routerLink="/home" routerLinkActive="active">Home</button>
-    <br>
-    <div *ngIf="!(isLoggedIn$ | async); else logOut">
-      <button routerLink="/auth/login" routerLinkActive="active">Log In</button>
-      <br>
-      <button routerLink="/auth/register" routerLinkActive="active">Sign Up</button>
-      <br>
+  <nav>
+    <div>
+      <button class="btn" routerLink="/home" routerLinkActive="active">Home</button>
+      <button class="btn" routerLink="/books" routerLinkActive="active">Search</button>
+      <button class="btn" routerLink="/reviews" routerLinkActive="active">Reviews</button>
     </div>
-    <ng-template #logOut>
-      <button (click)="onLogOut()">Log Out</button> <br>
-    </ng-template>
 
-    <button routerLink="/books" routerLinkActive="active">Search</button> <br>
-    <button routerLink="/reviews" routerLinkActive="active">Reviews</button> <br>
-    <button *ngIf="(isLoggedIn$ | async)" routerLink="/users/profile" routerLinkActive="active">My Profile</button>
+    <div>
+      <div *ngIf="!(isLoggedIn$ | async); else logOut">
+        <button class="btn" routerLink="/auth/login" routerLinkActive="active">Log In</button>
+        <button class="btn" routerLink="/auth/register" routerLinkActive="active">Sign Up</button>
+      </div>
+      <ng-template #logOut>
+        <button class="btn" (click)="onLogOut()">Log Out</button>
+        <button class="btn" routerLink="/users/profile" routerLinkActive="active">My Profile</button>
+      </ng-template>
+    </div>
   </nav>
 </header>

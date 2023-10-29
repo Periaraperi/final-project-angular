@@ -1,15 +1,15 @@
 <h1>Search for Books:</h1>
-<div [formGroup]="form">
-  <select formControlName="searchBy">
+<div class="searchBar" [formGroup]="form">
+  <select class="btn" formControlName="searchBy">
     <option *ngFor="let o of options"> {{o}} </option>
   </select>
   <input type="text" placeholder="search..." formControlName="searchBar">
-  <button (click)="onSearch()" [disabled]="form.invalid"> Search </button>
+  <button class="btn" (click)="onSearch()" [disabled]="form.invalid"> Search </button>
 </div>
 
 <div *ngIf="specificBook$ | async as book">
   <div *ngIf="book.key!==''; else isbnError">
-    <div style="border:3px solid black">
+    <div>
       <img *ngIf="book.covers && book.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + book.covers[0] + '-M.jpg'">
       <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"></ng-template>
       <app-book-details
@@ -21,19 +21,19 @@
         [authors]="book.authors">
       </app-book-details>
     </div>
-    <button [routerLink]="['./editions',book.works[0].key.toString()]">Other Editions</button>
-    <button *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(book.key)">Mark for me</button>
+    <button class="btn" [routerLink]="['./editions',book.works[0].key.toString()]">Other Editions</button>
+    <button class="btn" *ngIf="(isLoggedIn$ | async)" (click)="onMarkBook(book.key)">Mark for me</button>
   </div>
   <ng-template #isbnError> Could Not Find Anything :(</ng-template>
 </div>
 <div *ngIf="works$">
-  <app-pagination
+  <app-pagination class="pag"
     [currentPage]="currentPage"
     [totalPages]="totalPages"
     (pageChanged)="onPageChange($event)">
   </app-pagination>
   <app-works-list [foundWorks$]="slicedWorks$" [waitingForSearch]="waiting"></app-works-list>
-  <app-pagination
+  <app-pagination class="pag"
     [currentPage]="currentPage"
     [totalPages]="totalPages"
       (pageChanged)="onPageChange($event)">

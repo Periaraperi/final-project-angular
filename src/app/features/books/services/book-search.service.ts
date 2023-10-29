@@ -10,9 +10,6 @@ export class BookSearchService {
 
   constructor(private http: HttpClient) { }
 
-  //private _isbnUrl = "https://openlibrary.org/isbn/"; // same as /books. need this for general info
-  //private _worksUrl = "https://openlibrary.org"; // need this for description of book
-
   // get many works according to match
   public searchByQuery(query: string): Observable<IWork[]> {
     const res = this.http.get<{docs:{key: string}[]}>(`https://openlibrary.org/search.json?q=${query}`);
@@ -62,6 +59,7 @@ export class BookSearchService {
 
   private getWork(path: string): Observable<IWork> { // path is always /works/WORKID
     return this.http.get<IWork>(`https://openlibrary.org${path}.json`).pipe(
+      catchError((res) => {console.log(res); return of(DEFAULT_WORK)}),
       map((res) => {
         if (typeof res.description === "object") {
           return {...res, description: res.description.value};

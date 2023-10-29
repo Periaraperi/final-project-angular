@@ -1,0 +1,35 @@
+.formDiv {
+  display:inline-block;
+  margin-top:50px;
+  margin-left:35%;
+  margin-bottom:30px;
+  background-color:#d9dae0;
+  border:2px solid black;
+  width:30%;
+
+  label {
+    font-size:20px;
+  }
+  input {
+    font-size:30px;
+    width:100%;
+    border-radius:5px;
+    border: 1px solid black;
+  }
+  button {
+    font-size:20px;
+    border: 1px solid black;
+    border-radius: 1px;
+    background-color:#cdd3d6;
+    padding:3px;
+    &:hover {
+      background-color:#8c8f9e;
+    }
+    margin-left:30%;
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+  .error-message {
+    color:red;
+  }
+}

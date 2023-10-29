@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { BookSearchService } from '../../services/book-search.service';
@@ -18,7 +18,7 @@ import { ReviewService } from 'src/app/features/reviews/services/review.service'
   styleUrls: ['./editions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditionsComponent {
+export class EditionsComponent implements OnInit {
   editions$: Observable<IEditions> | null = null;
   slicedEditions$: Observable<IEditions> | null = null;
 
@@ -32,9 +32,13 @@ export class EditionsComponent {
               private userService: UserService,
               private reviewService: ReviewService,
               private router: Router) {
+  }
+
+  ngOnInit(): void {
     this.workId = this.route.snapshot.paramMap.get('workId')!;
     this.editions$ = this.bookService.getEditions(this.workId);
     this.slicedEditions$ = this.getPaginated(this.editions$);
+
   }
 
   getAuthorData(authors: AuthorEndPoint[]) {

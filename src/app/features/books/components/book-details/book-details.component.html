@@ -1,24 +1,24 @@
-<p *ngIf="title">Title: {{title}}</p>
+<p *ngIf="title"><b>Title:</b> {{title}}</p>
 
 <div *ngIf="authorsData$ | async as authorsData">
-  Authors:
+  <b>Authors:</b>
   <div *ngFor="let a of authorsData">
-    <p>Name: {{a.name}}</p>
-    <p *ngIf="a.birth_date">Birth Date: {{a.birth_date}}</p>
-    <p *ngIf="a.death_date">Death Date: {{a.death_date}}</p>
-    <p *ngIf="a.bio">Bio: {{a.bio}}</p>
+    <p><b>Name</b>: {{a.name}}</p>
+    <p *ngIf="a.birth_date"><b>Birth Date:</b> {{a.birth_date}}</p>
+    <p *ngIf="a.death_date"><b>Death Date:</b> {{a.death_date}}</p>
+    <p *ngIf="a.bio"><b>Bio:</b> {{a.bio}}</p>
   </div>
 </div>
 
-<p *ngIf="pagination">Pagination: {{pagination}}</p>
-<p *ngIf="pageCount">Pages: {{pageCount}}</p>
-<p *ngIf="publishDate">Publish Date: {{publishDate}}</p>
+<p *ngIf="pagination"><b>Pagination:</b> {{pagination}}</p>
+<p *ngIf="pageCount"><b>Pages:</b> {{pageCount}}</p>
+<p *ngIf="publishDate"><b>Publish Date:</b> {{publishDate}}</p>
 <div *ngIf="publishers">
-  Publishers:
+  <b>Publishers:</b>
   <p *ngFor="let pub of publishers">{{pub}} </p>
 </div>
 
 <div *ngIf="subjects">
-  Subjects:
+  <b>Subjects:</b>
   <p *ngFor="let sub of subjects">{{sub}} </p>
 </div>

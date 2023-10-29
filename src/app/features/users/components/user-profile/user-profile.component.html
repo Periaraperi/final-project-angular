@@ -2,11 +2,11 @@
 
 <h2>User Info</h2>
 <div *ngIf="loggedInUser$ | async as user">
-  <div *ngIf="user">
-    NickName: {{user.nickname}}
-    Email: {{user.email}}
-    Password: {{user.password}}
-    LibId: {{user.id}}
+  <div class="info" *ngIf="user">
+    <p><b>NickName:</b> {{user.nickname}}</p>
+    <p><b>Email:</b> {{user.email}} </p>
+    <p><b>Password:</b> {{user.password}} </p>
+    <p><b>LibId:</b> {{user.id}} </p>
   </div>
 </div>
 
@@ -17,8 +17,8 @@
   (pageChanged)="onPageChange($event)"></app-pagination>
 <div *ngIf="slicedMarkedBooks$ | async as books">
   <div *ngFor="let b of books" style="border:1px solid black;">
-    <p> Title:{{b.title}} </p>
-    <button (click)="onRemove(b.key)">Remove</button>
+    <p><b>Title:</b> {{b.title}} </p>
+    <button class="btn" (click)="onRemove(b.key)">Remove</button>
     <img *ngIf="b.covers && b.covers[0]!==-1; else noPic" [src]="'https://covers.openlibrary.org/b/id/' + b.covers[0] + '-M.jpg'">
     <ng-template #noPic> <img src="../../../../../assets/noCover.jpg" width="150px" height="200px"> </ng-template>
   </div>

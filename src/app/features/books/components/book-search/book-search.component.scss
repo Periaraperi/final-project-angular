@@ -1,0 +1,30 @@
+h1 {
+  margin-left: 40%;
+}
+
+.searchBar {
+  margin-left: 35%;
+
+  input {
+    font-size: 23px;
+    border:2px solid black;
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.pag {
+  margin-left: 40%;
+}
+
+.btn {
+  display: inline-block;
+  font-size: 20px;
+  border: 1px solid black;
+  padding: 5px;
+  background-color:#cdd3d6;
+  &:hover {
+    background-color:#8c8f9e;
+  }
+}

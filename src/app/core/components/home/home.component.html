@@ -1,13 +1,13 @@
-<h1>HOME!!!</h1>
+<h1>Welcome to Online Library</h1>
 
 <h2>Trending Works</h2>
 
-<app-pagination
+<app-pagination class="pag"
   [currentPage]="currentPage"
   [totalPages]="totalPages"
   (pageChanged)="onPageChange($event)"></app-pagination>
 <app-works-list [foundWorks$]="slicedWorks$" [showDescription]="false"></app-works-list>
-<app-pagination
+<app-pagination class="pag"
   [currentPage]="currentPage"
   [totalPages]="totalPages"
   (pageChanged)="onPageChange($event)"></app-pagination>

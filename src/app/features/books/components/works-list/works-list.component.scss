@@ -1,0 +1,14 @@
+.results {
+  margin-left:49%;
+}
+
+.btn {
+  display: inline-block;
+  font-size: 15px;
+  border: 1px solid black;
+  padding: 5px;
+  background-color:#cdd3d6;
+  &:hover {
+    background-color:#8c8f9e;
+  }
+}
